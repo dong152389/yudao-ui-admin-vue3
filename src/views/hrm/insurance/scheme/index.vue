@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="【社保】社保管理" url="https://doc.iocoder.cn/hrm/insurance/" />
-
   <ContentWrap>
     <div class="mb-16px flex justify-end">
       <el-button

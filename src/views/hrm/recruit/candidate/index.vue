@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="【招聘】招聘管理" url="https://doc.iocoder.cn/hrm/recruit/" />
-
   <ContentWrap>
     <!-- 搜索工作栏 -->
     <el-form
