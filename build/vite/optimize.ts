@@ -103,7 +103,38 @@ const include = [
   'element-plus/es/components/footer/style/css',
   'element-plus/es/components/empty/style/css',
   'element-plus/es/components/mention/style/css',
-  'element-plus/es/components/progress/style/css'
+  'element-plus/es/components/progress/style/css',
+  // 以下组件样式不在上面的列表里时，首次访问使用它们的页面会被 Vite 运行时
+  // 发现为新依赖，触发重新预构建并整页 reload（例如租户列表的 el-input-tag）
+  'element-plus/es/components/aside/style/css',
+  'element-plus/es/components/base/style/css',
+  'element-plus/es/components/calendar/style/css',
+  'element-plus/es/components/carousel/style/css',
+  'element-plus/es/components/carousel-item/style/css',
+  'element-plus/es/components/config-provider/style/css',
+  'element-plus/es/components/container/style/css',
+  'element-plus/es/components/divider/style/css',
+  'element-plus/es/components/header/style/css',
+  'element-plus/es/components/icon/style/css',
+  'element-plus/es/components/input-tag/style/css',
+  'element-plus/es/components/loading/style/css',
+  'element-plus/es/components/main/style/css',
+  'element-plus/es/components/message/style/css',
+  'element-plus/es/components/message-box/style/css',
+  'element-plus/es/components/notification/style/css',
+  'element-plus/es/components/page-header/style/css',
+  'element-plus/es/components/popconfirm/style/css',
+  'element-plus/es/components/popover/style/css',
+  'element-plus/es/components/result/style/css',
+  'element-plus/es/components/scrollbar/style/css',
+  'element-plus/es/components/step/style/css',
+  'element-plus/es/components/steps/style/css',
+  'element-plus/es/components/tab-pane/style/css',
+  'element-plus/es/components/tabs/style/css',
+  'element-plus/es/components/transfer/style/css',
+  // 源码中显式 import 的 element-plus 子路径，同样需要提前预构建
+  'element-plus/es/components/scrollbar/index',
+  'element-plus/es/components/upload/src/upload'
 ]
 
 const exclude: string[] = []
