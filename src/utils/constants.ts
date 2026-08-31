@@ -75,15 +75,6 @@ export const SystemUserSexEnum = {
 
 // ========== INFRA 模块 ==========
 /**
- * 代码生成模板类型
- */
-export const InfraCodegenTemplateTypeEnum = {
-  CRUD: 1, // 基础 CRUD
-  TREE: 2, // 树形 CRUD
-  SUB: 15 // 主子表 CRUD
-}
-
-/**
  * 任务状态的枚举
  */
 export const InfraJobStatusEnum = {
