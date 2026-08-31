@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="【考勤】考勤管理" url="https://doc.iocoder.cn/hrm/attendance/" />
-
   <ContentWrap>
     <!-- 搜索工作栏 -->
     <el-form

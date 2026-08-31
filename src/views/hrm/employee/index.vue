@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="【员工】员工管理" url="https://doc.iocoder.cn/hrm/employee/" />
-
   <ContentWrap>
     <!-- 搜索工作栏 -->
     <el-form

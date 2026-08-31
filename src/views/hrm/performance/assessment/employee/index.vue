@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="【绩效】绩效考核、绩效档案" url="https://doc.iocoder.cn/hrm/performance/assessment/" />
-
   <ContentWrap>
     <div class="mb-16px flex items-center justify-between">
       <div class="flex items-center gap-12px">

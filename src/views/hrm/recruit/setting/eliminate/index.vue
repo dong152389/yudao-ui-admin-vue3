@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="【招聘】招聘管理" url="https://doc.iocoder.cn/hrm/recruit/" />
-
   <ContentWrap title="原因列表">
     <!-- 操作栏 -->
     <div class="mb-16px flex justify-end">
