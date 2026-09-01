@@ -1,7 +1,9 @@
 <template>
   <div class="flex h-[calc(100vh-var(--top-tool-height)-var(--tags-view-height))] overflow-hidden">
     <!-- 左侧：会话列表 -->
-    <div class="w-240px flex flex-col border-r border-solid border-[var(--el-border-color)] bg-white">
+    <div
+      class="w-240px flex flex-col border-r border-solid border-[var(--el-border-color)] bg-white"
+    >
       <div class="p-12px">
         <el-button type="primary" class="w-full" @click="handleCreateConversation">
           <Icon icon="ep:plus" class="mr-5px" /> 新建对话
@@ -17,10 +19,7 @@
         >
           <div class="flex items-center justify-between">
             <span class="truncate">{{ conversation.title }}</span>
-            <el-icon
-              class="delete-btn"
-              @click.stop="handleDeleteConversation(conversation.id!)"
-            >
+            <el-icon class="delete-btn" @click.stop="handleDeleteConversation(conversation.id!)">
               <Icon icon="ep:delete" />
             </el-icon>
           </div>
@@ -32,7 +31,9 @@
     <!-- 中间：对话区 -->
     <div class="flex flex-1 flex-col bg-[var(--el-bg-color-page)]">
       <!-- 顶部工具栏 -->
-      <div class="flex items-center gap-12px border-b border-solid border-[var(--el-border-color)] bg-white px-16px py-10px">
+      <div
+        class="flex items-center gap-12px border-b border-solid border-[var(--el-border-color)] bg-white px-16px py-10px"
+      >
         <span class="text-15px font-bold">{{ activeRoleName || '医疗健康助手' }}</span>
         <el-select
           v-model="activeRoleId"
@@ -40,12 +41,7 @@
           class="!w-200px"
           @change="handleRoleChange"
         >
-          <el-option
-            v-for="role in roleList"
-            :key="role.id"
-            :label="role.name"
-            :value="role.id"
-          >
+          <el-option v-for="role in roleList" :key="role.id" :label="role.name" :value="role.id">
             <div class="flex flex-col">
               <span>{{ role.name }}</span>
               <span class="text-12px text-gray-400">{{ role.description }}</span>
@@ -78,14 +74,22 @@
           <div v-for="(item, index) in messageList" :key="index" class="mb-16px">
             <!-- 用户消息 -->
             <div v-if="item.type === 'user'" class="flex justify-end">
-              <div class="max-w-70% rounded-12px bg-[var(--el-color-primary)] px-14px py-10px text-14px leading-22px text-white whitespace-pre-wrap">
+              <div
+                class="max-w-70% rounded-12px bg-[var(--el-color-primary)] px-14px py-10px text-14px leading-22px text-white whitespace-pre-wrap"
+              >
                 {{ item.content }}
               </div>
             </div>
             <!-- AI 消息 -->
             <div v-else class="flex justify-start">
-              <div class="max-w-85% rounded-12px bg-white px-14px py-10px text-14px leading-24px shadow-sm">
-                <div v-if="item.content" class="markdown-body" v-html="renderMarkdown(item.content)" />
+              <div
+                class="max-w-85% rounded-12px bg-white px-14px py-10px text-14px leading-24px shadow-sm"
+              >
+                <div
+                  v-if="item.content"
+                  class="markdown-body"
+                  v-html="renderMarkdown(item.content)"
+                />
                 <div v-else class="text-gray-400">
                   <Icon icon="ep:loading" class="animate-spin" /> 思考中…
                 </div>
@@ -127,7 +131,9 @@
     </div>
 
     <!-- 右侧：我的预约与病历 -->
-    <div class="w-280px flex flex-col border-l border-solid border-[var(--el-border-color)] bg-white">
+    <div
+      class="w-280px flex flex-col border-l border-solid border-[var(--el-border-color)] bg-white"
+    >
       <el-scrollbar class="flex-1 p-12px">
         <div class="mb-16px">
           <div class="mb-8px text-14px font-bold">
@@ -141,11 +147,14 @@
             <div class="flex justify-between">
               <span class="font-bold">{{ appointment.departmentName }}</span>
               <el-tag v-if="appointment.status === 0" size="small">待就诊</el-tag>
-              <el-tag v-else-if="appointment.status === 1" size="small" type="success">已完成</el-tag>
+              <el-tag v-else-if="appointment.status === 1" size="small" type="success"
+                >已完成</el-tag
+              >
               <el-tag v-else size="small" type="info">已取消</el-tag>
             </div>
             <div class="mt-4px text-gray-500">
-              {{ appointment.appointmentDate }} {{ appointment.timeSlot }} · {{ appointment.doctorName }}
+              {{ appointment.appointmentDate }} {{ appointment.timeSlot }} ·
+              {{ appointment.doctorName }}
             </div>
             <el-button
               v-if="appointment.status === 0"
@@ -186,10 +195,16 @@
     <el-dialog v-model="recordDialogVisible" title="预问诊病历" width="640px">
       <el-descriptions v-if="viewingRecord" :column="1" border>
         <el-descriptions-item label="主诉">{{ viewingRecord.chiefComplaint }}</el-descriptions-item>
-        <el-descriptions-item label="现病史">{{ viewingRecord.presentIllness }}</el-descriptions-item>
+        <el-descriptions-item label="现病史">{{
+          viewingRecord.presentIllness
+        }}</el-descriptions-item>
         <el-descriptions-item label="既往史">{{ viewingRecord.pastHistory }}</el-descriptions-item>
-        <el-descriptions-item label="过敏史">{{ viewingRecord.allergyHistory }}</el-descriptions-item>
-        <el-descriptions-item label="建议就诊科室">{{ viewingRecord.departmentSuggestion }}</el-descriptions-item>
+        <el-descriptions-item label="过敏史">{{
+          viewingRecord.allergyHistory
+        }}</el-descriptions-item>
+        <el-descriptions-item label="建议就诊科室">{{
+          viewingRecord.departmentSuggestion
+        }}</el-descriptions-item>
         <el-descriptions-item label="补充说明">{{ viewingRecord.advice }}</el-descriptions-item>
       </el-descriptions>
     </el-dialog>
@@ -200,19 +215,20 @@
 import MarkdownIt from 'markdown-it'
 import {
   MedicalChatRoleApi,
+  type MedicalChatRoleVO,
   MedicalConversationApi,
-  MedicalMessageApi,
   type MedicalConversationVO,
-  type MedicalMessageVO,
-  type MedicalChatRoleVO
+  MedicalMessageApi,
+  type MedicalMessageVO
 } from '@/api/ai/medical/chat'
 import {
   AppointmentApi,
-  MedicalRecordApi,
   type AppointmentVO,
+  MedicalRecordApi,
   type MedicalRecordVO
 } from '@/api/ai/medical/medical'
 import { ModelApi } from '@/api/ai/medical/model'
+import { parseStreamEvent, resolveDialect, type StreamDialect } from '@/api/ai/medical/stream'
 
 defineOptions({ name: 'AiMedicalChat' })
 
@@ -239,6 +255,11 @@ const inputContent = ref('')
 const streaming = ref(false)
 const streamCtrl = ref<AbortController>()
 const messageScrollbarRef = ref()
+
+// 当前会话模型的流式方言（按 ai_api_key.platform 归一化，默认 OpenAI 官方格式）
+const streamDialect = computed<StreamDialect>(() =>
+  resolveDialect(modelList.value.find((item) => item.id === activeModelId.value)?.platform)
+)
 
 // ========== 右侧面板 ==========
 const appointmentList = ref<AppointmentVO[]>([])
@@ -321,13 +342,14 @@ const handleSend = async () => {
   const content = inputContent.value.trim()
   if (!content || !activeConversationId.value || streaming.value) return
   inputContent.value = ''
-  // 本地先展示用户消息与 AI 占位
+  // 本地先展示用户消息与 AI 占位。assistantMessage 必须 reactive 包裹：
+  // push 进 ref 数组后再修改裸对象不会触发视图更新，流式内容会攒到结束后一次性显示
   messageList.value.push({ conversationId: activeConversationId.value, type: 'user', content })
-  const assistantMessage: MedicalMessageVO = {
+  const assistantMessage = reactive<MedicalMessageVO>({
     conversationId: activeConversationId.value,
     type: 'assistant',
     content: ''
-  }
+  })
   messageList.value.push(assistantMessage)
   streaming.value = true
   streamCtrl.value = new AbortController()
@@ -339,7 +361,8 @@ const handleSend = async () => {
       activeConversationId.value,
       content,
       streamCtrl.value,
-      (event) => {
+      (raw) => {
+        const event = parseStreamEvent(streamDialect.value, raw)
         if (event.type === 'content' && event.content) {
           assistantMessage.content += event.content
           scrollToBottom()
@@ -367,9 +390,29 @@ const handleSend = async () => {
       }
       message.error(errorTip)
     }
-    // 重新加载历史，保证与服务端一致
+    // 重新加载历史，保证与服务端一致；会话可能已被 AI 重命名，同步刷新左侧列表
     messageList.value = await MedicalMessageApi.getMessageListMy(activeConversationId.value)
+    conversationList.value = await MedicalConversationApi.getConversationListMy()
     scrollToBottom()
+    // AI 生成的会话标题在回复后数秒～数十秒内落库：轮询刷新左侧列表，标题变化即停止
+    let pollCount = 0
+    const pollTimer = setInterval(() => {
+      pollCount++
+      MedicalConversationApi.getConversationListMy()
+        .then((list) => {
+          conversationList.value = list
+          const current = list.find((item) => item.id === activeConversationId.value)
+          const renamed = current?.title && current.title !== '新对话'
+          if (pollCount >= 20 || renamed) {
+            clearInterval(pollTimer)
+          }
+        })
+        .catch(() => {
+          if (pollCount >= 20) {
+            clearInterval(pollTimer)
+          }
+        })
+    }, 5000)
   }
 }
 

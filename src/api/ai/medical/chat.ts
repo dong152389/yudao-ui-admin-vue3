@@ -2,6 +2,7 @@ import request from '@/config/axios'
 import { fetchEventSource } from '@microsoft/fetch-event-source'
 import { getAccessToken, getTenantId } from '@/utils/auth'
 import { config } from '@/config/axios/config'
+import type { RawSseEvent } from '@/api/ai/medical/stream'
 
 // 会话 VO
 export interface MedicalConversationVO {
@@ -39,14 +40,6 @@ export interface MedicalChatRoleVO {
   status?: number
 }
 
-// SSE 事件
-export interface MedicalStreamEvent {
-  type: 'content' | 'done' | 'error'
-  content?: string
-  message?: string
-  messageId?: number
-}
-
 // 会话 API
 export const MedicalConversationApi = {
   createConversationMy: async (data?: Partial<MedicalConversationVO>): Promise<number> => {
@@ -73,12 +66,12 @@ export const MedicalMessageApi = {
       url: `/ai/chat/message/my-list?conversationId=${conversationId}`
     })
   },
-  // 流式发送消息（SSE）。onEvent 回调接收解析后的事件对象
+  // 流式发送消息（SSE）。onEvent 回调接收原始 SSE 事件（官方格式，方言由调用方经 stream.ts 解析）
   sendMessageStream: async (
     conversationId: number,
     content: string,
     ctrl: AbortController,
-    onEvent: (event: MedicalStreamEvent) => void,
+    onEvent: (event: RawSseEvent) => void,
     onError: (error: any) => void
   ) => {
     const token = getAccessToken()
@@ -93,9 +86,7 @@ export const MedicalMessageApi = {
       openWhenHidden: true,
       body: JSON.stringify({ conversationId, content }),
       async onmessage(event) {
-        if (event.data) {
-          onEvent(JSON.parse(event.data) as MedicalStreamEvent)
-        }
+        onEvent({ event: event.event, data: event.data })
       },
       onerror: onError,
       signal: ctrl.signal

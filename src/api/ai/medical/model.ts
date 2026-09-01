@@ -37,6 +37,7 @@ export interface AiModelVO {
   name: string
   model: string
   type: number // 1对话 2向量
+  platform?: string // 模型平台（来自绑定密钥，决定 SSE 解析哪种官方流式协议）
   temperature?: number
   maxTokens?: number
   status?: number

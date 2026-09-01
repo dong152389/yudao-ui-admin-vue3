@@ -3,7 +3,12 @@
     <!-- API 密钥 -->
     <el-tab-pane label="API 密钥" name="apiKey">
       <div class="mb-12px">
-        <el-button type="primary" plain @click="openKeyForm('create')" v-hasPermi="['ai:api-key:create']">
+        <el-button
+          type="primary"
+          plain
+          @click="openKeyForm('create')"
+          v-hasPermi="['ai:api-key:create']"
+        >
           <Icon icon="ep:plus" class="mr-5px" />新增密钥
         </el-button>
       </div>
@@ -11,8 +16,20 @@
         <el-table-column label="编号" align="center" prop="id" width="70" />
         <el-table-column label="名称" align="center" prop="name" min-width="140" />
         <el-table-column label="平台" align="center" prop="platform" width="120" />
-        <el-table-column label="API 地址" align="center" prop="baseUrl" min-width="220" show-overflow-tooltip />
-        <el-table-column label="密钥" align="center" prop="apiKey" min-width="180" show-overflow-tooltip />
+        <el-table-column
+          label="API 地址"
+          align="center"
+          prop="baseUrl"
+          min-width="220"
+          show-overflow-tooltip
+        />
+        <el-table-column
+          label="密钥"
+          align="center"
+          prop="apiKey"
+          min-width="180"
+          show-overflow-tooltip
+        />
         <el-table-column label="状态" align="center" prop="status" width="90">
           <template #default="scope">
             <el-tag :type="scope.row.status === 0 ? 'success' : 'danger'">
@@ -22,8 +39,20 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="160">
           <template #default="scope">
-            <el-button link type="primary" @click="openKeyForm('update', scope.row.id)" v-hasPermi="['ai:api-key:update']">修改</el-button>
-            <el-button link type="danger" @click="handleDeleteKey(scope.row.id)" v-hasPermi="['ai:api-key:delete']">删除</el-button>
+            <el-button
+              link
+              type="primary"
+              @click="openKeyForm('update', scope.row.id)"
+              v-hasPermi="['ai:api-key:update']"
+              >修改</el-button
+            >
+            <el-button
+              link
+              type="danger"
+              @click="handleDeleteKey(scope.row.id)"
+              v-hasPermi="['ai:api-key:delete']"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -32,7 +61,12 @@
     <!-- 模型 -->
     <el-tab-pane label="模型管理" name="model">
       <div class="mb-12px">
-        <el-button type="primary" plain @click="openModelForm('create')" v-hasPermi="['ai:model:create']">
+        <el-button
+          type="primary"
+          plain
+          @click="openModelForm('create')"
+          v-hasPermi="['ai:model:create']"
+        >
           <Icon icon="ep:plus" class="mr-5px" />新增模型
         </el-button>
       </div>
@@ -60,8 +94,20 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="160">
           <template #default="scope">
-            <el-button link type="primary" @click="openModelForm('update', scope.row.id)" v-hasPermi="['ai:model:update']">修改</el-button>
-            <el-button link type="danger" @click="handleDeleteModel(scope.row.id)" v-hasPermi="['ai:model:delete']">删除</el-button>
+            <el-button
+              link
+              type="primary"
+              @click="openModelForm('update', scope.row.id)"
+              v-hasPermi="['ai:model:update']"
+              >修改</el-button
+            >
+            <el-button
+              link
+              type="danger"
+              @click="handleDeleteModel(scope.row.id)"
+              v-hasPermi="['ai:model:delete']"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -70,12 +116,25 @@
 
   <!-- 密钥表单 -->
   <Dialog v-model="keyDialogVisible" :title="keyDialogTitle" width="600">
-    <el-form ref="keyFormRef" v-loading="keyFormLoading" :model="keyFormData" :rules="keyFormRules" label-width="110px">
+    <el-form
+      ref="keyFormRef"
+      v-loading="keyFormLoading"
+      :model="keyFormData"
+      :rules="keyFormRules"
+      label-width="110px"
+    >
       <el-form-item label="密钥名称" prop="name">
         <el-input v-model="keyFormData.name" placeholder="如：new-api 中转站" />
       </el-form-item>
+      <el-form-item label="平台" prop="platform">
+        <el-select v-model="keyFormData.platform">
+          <el-option label="OpenAI兼容（new-api 等中转站）" value="OpenAI兼容" />
+          <el-option label="Anthropic（官方 API）" value="Anthropic" />
+          <el-option label="Gemini（官方 API）" value="Gemini" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="API 地址" prop="baseUrl">
-        <el-input v-model="keyFormData.baseUrl" placeholder="new-api 地址，以 /v1 结尾，如 https://xxx.com/v1" />
+        <el-input v-model="keyFormData.baseUrl" :placeholder="baseUrlPlaceholder" />
       </el-form-item>
       <el-form-item label="API 密钥" prop="apiKey">
         <el-input v-model="keyFormData.apiKey" placeholder="sk-xxx" show-password />
@@ -98,12 +157,21 @@
 
   <!-- 模型表单 -->
   <Dialog v-model="modelDialogVisible" :title="modelDialogTitle" width="600">
-    <el-form ref="modelFormRef" v-loading="modelFormLoading" :model="modelFormData" :rules="modelFormRules" label-width="110px">
+    <el-form
+      ref="modelFormRef"
+      v-loading="modelFormLoading"
+      :model="modelFormData"
+      :rules="modelFormRules"
+      label-width="110px"
+    >
       <el-form-item label="模型名称" prop="name">
         <el-input v-model="modelFormData.name" placeholder="显示名称，如：DeepSeek 对话模型" />
       </el-form-item>
       <el-form-item label="模型标识" prop="model">
-        <el-input v-model="modelFormData.model" placeholder="如：deepseek-chat / gpt-4o-mini / text-embedding-3-small" />
+        <el-input
+          v-model="modelFormData.model"
+          placeholder="如：deepseek-chat / gpt-4o-mini / text-embedding-3-small"
+        />
       </el-form-item>
       <el-form-item label="模型类型" prop="type">
         <el-radio-group v-model="modelFormData.type">
@@ -132,14 +200,16 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button :disabled="modelFormLoading" type="primary" @click="submitModelForm">确 定</el-button>
+      <el-button :disabled="modelFormLoading" type="primary" @click="submitModelForm"
+        >确 定</el-button
+      >
       <el-button @click="modelDialogVisible = false">取 消</el-button>
     </template>
   </Dialog>
 </template>
 
 <script lang="ts" setup>
-import { ApiKeyApi, ModelApi, type ApiKeyVO, type AiModelVO } from '@/api/ai/medical/model'
+import { type AiModelVO, ApiKeyApi, type ApiKeyVO, ModelApi } from '@/api/ai/medical/model'
 
 defineOptions({ name: 'AiModelConfig' })
 
@@ -157,8 +227,20 @@ const keyFormRef = ref()
 const keyFormData = ref<ApiKeyVO>({} as ApiKeyVO)
 const keyFormRules = {
   name: [{ required: true, message: '密钥名称不能为空', trigger: 'blur' }],
+  platform: [{ required: true, message: '平台不能为空', trigger: 'change' }],
   apiKey: [{ required: true, message: 'API 密钥不能为空', trigger: 'blur' }]
 }
+
+// API 地址提示按平台变化：Gemini 官方端点固定；Anthropic 默认官方地址
+const baseUrlPlaceholder = computed(() => {
+  if (keyFormData.value.platform === 'Gemini') {
+    return 'Gemini 官方端点固定，无需填写'
+  }
+  if (keyFormData.value.platform === 'Anthropic') {
+    return '可选，默认 https://api.anthropic.com'
+  }
+  return 'OpenAI 兼容中转地址，如 https://xxx.com/v1'
+})
 
 const getKeyList = async () => {
   keyLoading.value = true
